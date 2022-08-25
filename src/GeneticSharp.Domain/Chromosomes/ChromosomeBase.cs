@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using GeneticSharp.Infrastructure.Framework.Texts;
 using GeneticSharp.Infrastructure.Framework.Commons;
+using System.Linq;
 
 namespace GeneticSharp.Domain.Chromosomes
 {
@@ -265,7 +266,7 @@ namespace GeneticSharp.Domain.Chromosomes
         {
             try
             {
-                return m_genes as T[];
+                return m_genes.Select(g => (T)(object)g).ToArray();
             }
             catch
             {
@@ -379,7 +380,7 @@ namespace GeneticSharp.Domain.Chromosomes
 
         public object[] GetGenes()
         {
-            return GetGenes<U>() as object[];
+            return m_genes.Select(g => g as object).ToArray();
         }
 
         public abstract object GenerateGene(int geneIndex);

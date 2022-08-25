@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using GeneticSharp.Infrastructure.Framework.Texts;
 
@@ -42,7 +43,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <param name="chromosomes">The chromosomes.</param>
         public static void ValidateGenes(this IList<IChromosome> chromosomes)
         {
-            if (chromosomes.Any(c => c.GetGenes().Any(g => g.Value == null)))
+            if (chromosomes.Any(c => c.GetGenes().Any(g => g is INullable && g == null)))
             {
                 throw new InvalidOperationException("The chromosome '{0}' is generating genes with null value.".With(chromosomes.First().GetType().Name));
             }
@@ -54,7 +55,12 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <param name="chromosome">The chromosomes.</param>
         public static void ValidateGenes(this IChromosome chromosome)
         {
-            if (chromosome != null && chromosome.GetGenes().Any(g => g.Value == null))
+            if(chromosome != null && chromosome.GetGenes() == null)
+            {
+                throw new InvalidOperationException("Genes are null");
+            }
+
+            if (chromosome != null && chromosome.GetGenes().Any(g => g == null))
             {
                 throw new InvalidOperationException("The chromosome '{0}' is generating genes with null value.".With(chromosome.GetType().Name));
             }

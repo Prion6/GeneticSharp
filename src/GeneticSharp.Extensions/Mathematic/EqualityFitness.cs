@@ -20,10 +20,10 @@ namespace GeneticSharp.Extensions.Mathematic
         public static int GetEquationResult(EquationChromosome equalityChromosome)
         {
             var genes = equalityChromosome.GetGenes();
-            var a = (int)genes[0].Value;
-            var b = (int)genes[1].Value;
-            var c = (int)genes[2].Value;
-            var d = (int)genes[3].Value;
+            var a = (int)genes[0];
+            var b = (int)genes[1];
+            var c = (int)genes[2];
+            var d = (int)genes[3];
 
             return a + (2 * b) + (3 * c) + (4 * d);
         }

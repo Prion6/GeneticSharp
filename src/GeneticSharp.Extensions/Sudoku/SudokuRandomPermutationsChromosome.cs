@@ -59,14 +59,14 @@ namespace GeneticSharp.Extensions.Sudoku
         /// </summary>
         /// <param name="geneIndex">the gene index amongst all associated to random permutations</param>
         /// <returns>the gene generated for the corresponding index</returns>
-        public override Gene GenerateGene(int geneIndex)
+        public override object GenerateGene(int geneIndex)
         {
             var rnd = RandomizationProvider.Current;
 
             var rowIndex = geneIndex % 9;
 
             var permIdx = rnd.GetInt(0, TargetRowsPermutations[rowIndex].Count);
-            return new Gene(permIdx);
+            return permIdx;
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace GeneticSharp.Extensions.Sudoku
             var rnd = RandomizationProvider.Current;
             var switchIdx = rnd.GetInt(0, _nbPermutations);
             var permGeneIdx = switchIdx * 9 + rowIndex;
-            return (int)GetGene(permGeneIdx).Value;
+            return GetGene<int>(permGeneIdx);
         }
 
         public override IChromosome CreateNew()

@@ -79,7 +79,7 @@ namespace GeneticSharp.Extensions.Drawing
             for (int i = 0; i < m_pixelsCount; i++)
             {
                 var targetPixel = m_targetBitmapPixels[i];
-                var chromosomePixel = (Color)chromosome.GetGene(i).Value;
+                var chromosomePixel = chromosome.GetGene<Color>(i);
 
                 fitness -= Math.Abs(targetPixel.R - chromosomePixel.R);
                 fitness -= Math.Abs(targetPixel.G - chromosomePixel.G);
