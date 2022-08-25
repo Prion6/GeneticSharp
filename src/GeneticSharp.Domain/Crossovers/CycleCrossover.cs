@@ -94,7 +94,7 @@ namespace GeneticSharp.Domain.Crossovers
         /// <param name="toOffspring1">To offspring1.</param>
         /// <param name="fromParent2Genes">From parent2 genes.</param>
         /// <param name="toOffspring2">To offspring2.</param>
-        private static void CopyCycleIndexPair(IList<int> cycle, Gene[] fromParent1Genes, IChromosome toOffspring1, Gene[] fromParent2Genes, IChromosome toOffspring2)
+        private static void CopyCycleIndexPair(IList<int> cycle, object[] fromParent1Genes, IChromosome toOffspring1, object[] fromParent2Genes, IChromosome toOffspring2)
         {
             int geneCycleIndex = 0;
 
@@ -113,13 +113,13 @@ namespace GeneticSharp.Domain.Crossovers
         /// <param name="parent2Genes">The parent two's genes.</param>
         /// <param name="geneIndex">The current gene index.</param>
         /// <param name="cycle">The cycle.</param>
-        private void CreateCycle(Gene[] parent1Genes, Gene[] parent2Genes, int geneIndex, List<int> cycle)
+        private void CreateCycle(object[] parent1Genes, object[] parent2Genes, int geneIndex, List<int> cycle)
         {
             if (!cycle.Contains(geneIndex))
             {
                 var parent2Gene = parent2Genes[geneIndex];
                 cycle.Add(geneIndex);
-                var newGeneIndex = parent1Genes.Select((g, i) => new { g.Value, Index = i }).First(g => g.Value.Equals(parent2Gene.Value));
+                var newGeneIndex = parent1Genes.Select((g, i) => new { g, Index = i }).First(g => g.Equals(parent2Gene));
 
                 if (geneIndex != newGeneIndex.Index)
                 {

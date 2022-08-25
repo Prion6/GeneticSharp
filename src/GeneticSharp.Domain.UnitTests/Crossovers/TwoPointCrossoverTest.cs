@@ -30,7 +30,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         public void Cross_ChromosomeLengthLowerThan3_Exception()
         {
             var target = new TwoPointCrossover(0, 1);
-            var chromosome1 = Substitute.For<ChromosomeBase>(2);
+            var chromosome1 = Substitute.For<ChromosomeBase<int>>(2);
 
             Assert.Catch<CrossoverException>(() =>
             {
@@ -45,7 +45,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         public void Cross_LessGenesThenSecondSwapPoint_Exception()
         {
             var target = new TwoPointCrossover(1, 3);
-            var chromosome1 = Substitute.For<ChromosomeBase>(3);
+            var chromosome1 = Substitute.For<ChromosomeBase<int>>(3);
 
             Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
@@ -55,7 +55,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
                 });
             }, "The swap point two index is 3, but there is only 3 genes. The swap should result at least one gene to each sides.");
 
-            var chromosome2 = Substitute.For<ChromosomeBase>(4);
+            var chromosome2 = Substitute.For<ChromosomeBase<int>>(4);
 
             Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
@@ -70,25 +70,13 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         public void Cross_ParentsWithTwoGenes_Cross()
         {
             var target = new TwoPointCrossover(0, 1);
-            var chromosome1 = Substitute.For<ChromosomeBase>(4);
-            chromosome1.ReplaceGenes(0, new Gene[]
-            {
-                new Gene(1),
-                new Gene(2),
-                new Gene(3),
-                new Gene(4),
-            });
-            chromosome1.CreateNew().Returns(Substitute.For<ChromosomeBase>(4));
+            var chromosome1 = Substitute.For<ChromosomeBase<int>>(4);
+            chromosome1.ReplaceGenes(0, new int[]{1,2,3,4});
+            chromosome1.CreateNew().Returns(Substitute.For<ChromosomeBase<int>>(4));
 
-            var chromosome2 = Substitute.For<ChromosomeBase>(4);
-            chromosome2.ReplaceGenes(0, new Gene[]
-            {
-                new Gene(5),
-                new Gene(6),
-                new Gene(7),
-                new Gene(8)
-            });
-            chromosome2.CreateNew().Returns(Substitute.For<ChromosomeBase>(4));
+            var chromosome2 = Substitute.For<ChromosomeBase<int>>(4);
+            chromosome2.ReplaceGenes(0, new int[]{5,6,7,8});
+            chromosome2.CreateNew().Returns(Substitute.For<ChromosomeBase<int>>(4));
 
             var actual = target.Cross(new List<IChromosome>() { chromosome1, chromosome2 });
 
@@ -96,15 +84,15 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             Assert.AreEqual(4, actual[0].Length);
             Assert.AreEqual(4, actual[1].Length);
 
-            Assert.AreEqual(1, actual[0].GetGene(0).Value);
-            Assert.AreEqual(6, actual[0].GetGene(1).Value);
-            Assert.AreEqual(3, actual[0].GetGene(2).Value);
-            Assert.AreEqual(4, actual[0].GetGene(3).Value);
+            Assert.AreEqual(1, actual[0].GetGene(0));
+            Assert.AreEqual(6, actual[0].GetGene(1));
+            Assert.AreEqual(3, actual[0].GetGene(2));
+            Assert.AreEqual(4, actual[0].GetGene(3));
 
-            Assert.AreEqual(5, actual[1].GetGene(0).Value);
-            Assert.AreEqual(2, actual[1].GetGene(1).Value);
-            Assert.AreEqual(7, actual[1].GetGene(2).Value);
-            Assert.AreEqual(8, actual[1].GetGene(3).Value);
+            Assert.AreEqual(5, actual[1].GetGene(0));
+            Assert.AreEqual(2, actual[1].GetGene(1));
+            Assert.AreEqual(7, actual[1].GetGene(2));
+            Assert.AreEqual(8, actual[1].GetGene(3));
         }
     }
 }

@@ -13,7 +13,7 @@ namespace GeneticSharp.Extensions.AutoConfig
     /// <summary>
     /// Auto config another genetic algorithm.
     /// </summary>
-    public sealed class AutoConfigChromosome : ChromosomeBase
+    public sealed class AutoConfigChromosome : ChromosomeBase<object>
     {
         #region Fields
         private static readonly IRandomization s_randomization = RandomizationProvider.Current;
@@ -43,7 +43,7 @@ namespace GeneticSharp.Extensions.AutoConfig
         {
             get
             {
-                return GetGene(0).Value as ISelection;
+                return GetGene(0) as ISelection;
             }
         }
 
@@ -57,7 +57,7 @@ namespace GeneticSharp.Extensions.AutoConfig
         {
             get
             {
-                return GetGene(1).Value as ICrossover;
+                return GetGene(1) as ICrossover;
             }
         }
 
@@ -71,7 +71,7 @@ namespace GeneticSharp.Extensions.AutoConfig
         {
             get
             {
-                return GetGene(2).Value as IMutation;
+                return GetGene(2) as IMutation;
             }
         }
         #endregion
@@ -94,7 +94,7 @@ namespace GeneticSharp.Extensions.AutoConfig
         /// <param name="geneIndex">Index of the gene.</param>
         /// <returns>The new gene.</returns>
         /// <exception cref="System.InvalidOperationException">Invalid AutoConfigChromosome gene index.</exception>
-        public override Gene GenerateGene(int geneIndex)
+        public override object GenerateGene(int geneIndex)
         {
             switch (geneIndex)
             {
@@ -115,9 +115,9 @@ namespace GeneticSharp.Extensions.AutoConfig
             }
         }
         
-        private static Gene CreateRandomGene<TGeneValue>(IList<string> available)
+        private static object CreateRandomGene<TGeneValue>(IList<string> available)
         {
-            return new Gene(TypeHelper.CreateInstanceByName<TGeneValue>(available[s_randomization.GetInt(0, available.Count)]));
+            return TypeHelper.CreateInstanceByName<TGeneValue>(available[s_randomization.GetInt(0, available.Count)]);
         }
         #endregion
     }

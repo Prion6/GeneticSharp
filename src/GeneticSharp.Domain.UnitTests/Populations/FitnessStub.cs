@@ -23,7 +23,7 @@ namespace GeneticSharp.Domain.UnitTests
             }
 
             var genes = chromosome.GetGenes();
-            double f = genes.Sum(g => (int)g.Value) / 20f;
+            double f = genes.Sum(g => (int)g) / 20f;
 
             if (f > 1)
             {

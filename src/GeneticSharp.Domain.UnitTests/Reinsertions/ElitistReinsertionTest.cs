@@ -16,19 +16,19 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
         {
             var target = new ElitistReinsertion();
 
-            var population = new Population(6, 8, Substitute.For<ChromosomeBase>(2));
+            var population = new Population(6, 8, Substitute.For<ChromosomeBase<int>>(2));
             var offspring = new List<IChromosome>() {
-                Substitute.For<ChromosomeBase> (2),
-                Substitute.For<ChromosomeBase> (2),
-                Substitute.For<ChromosomeBase> (3),
-                Substitute.For<ChromosomeBase> (4)
+                Substitute.For<ChromosomeBase<int>> (2),
+                Substitute.For<ChromosomeBase<int>> (2),
+                Substitute.For<ChromosomeBase<int>> (3),
+                Substitute.For<ChromosomeBase<int>> (4)
             };
 
             var parents = new List<IChromosome>() {
-                Substitute.For<ChromosomeBase> (5),
-                Substitute.For<ChromosomeBase> (6),
-                Substitute.For<ChromosomeBase> (7),
-                Substitute.For<ChromosomeBase> (8)
+                Substitute.For<ChromosomeBase<int>> (5),
+                Substitute.For<ChromosomeBase<int>> (6),
+                Substitute.For<ChromosomeBase<int>> (7),
+                Substitute.For<ChromosomeBase<int>> (8)
             };
 
             parents[0].Fitness = 0.2;

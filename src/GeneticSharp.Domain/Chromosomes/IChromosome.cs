@@ -21,6 +21,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <value>The fitness.</value>
         double? Fitness { get; set; }
 
+
         /// <summary>
         /// Gets the length.
         /// </summary>
@@ -34,14 +35,15 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </summary>
         /// <returns>The gene.</returns>
         /// <param name="geneIndex">Gene index.</param>
-        Gene GenerateGene(int geneIndex);
+        T GenerateGene<T>(int geneIndex);
+        object GenerateGene(int geneIndex);
 
         /// <summary>
         /// Replaces the gene in the specified index.
         /// </summary>
         /// <param name="index">The gene index to replace.</param>
         /// <param name="gene">The new gene.</param>
-        void ReplaceGene(int index, Gene gene);
+        void ReplaceGene<T>(int index, T gene);
 
         /// <summary>
         /// Replaces the genes starting in the specified index.
@@ -51,7 +53,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </remarks>
         /// <param name="startIndex">Start index.</param>
         /// <param name="genes">The genes.</param>
-        void ReplaceGenes(int startIndex, Gene[] genes);
+        void ReplaceGenes<T>(int startIndex, T[] genes);
 
         /// <summary>
         /// Resizes the chromosome to the new length.
@@ -64,13 +66,15 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </summary>
         /// <returns>The gene.</returns>
         /// <param name="index">The gene index.</param>
-        Gene GetGene(int index);
+        T GetGene<T>(int index);
+        object GetGene(int index);
 
         /// <summary>
         /// Gets the genes.
         /// </summary>
         /// <returns>The genes.</returns>
-        Gene[] GetGenes();
+        T[] GetGenes<T>();
+        object[] GetGenes();
 
         /// <summary>
         /// Creates a new chromosome using the same structure of this.

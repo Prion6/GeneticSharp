@@ -20,14 +20,8 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         public void Mutate_NoProbality_NoExchangeGenes()
         {
             var target = new TworsMutation();
-            var chromosome = Substitute.For<ChromosomeBase>(4);
-            chromosome.ReplaceGenes(0, new Gene[]
-            {
-                new Gene(1),
-                new Gene(2),
-                new Gene(3),
-                new Gene(4),
-            });
+            var chromosome = Substitute.For<ChromosomeBase<int>>(4);
+            chromosome.ReplaceGenes(0, new int[]{1,2,3,4});
 
             var rnd = Substitute.For<IRandomization>();
             rnd.GetDouble().Returns(0.1);
@@ -36,24 +30,18 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             target.Mutate(chromosome, 0);
 
             Assert.AreEqual(4, chromosome.Length);
-            Assert.AreEqual(1, chromosome.GetGene(0).Value);
-            Assert.AreEqual(2, chromosome.GetGene(1).Value);
-            Assert.AreEqual(3, chromosome.GetGene(2).Value);
-            Assert.AreEqual(4, chromosome.GetGene(3).Value);
+            Assert.AreEqual(1, chromosome.GetGene(0));
+            Assert.AreEqual(2, chromosome.GetGene(1));
+            Assert.AreEqual(3, chromosome.GetGene(2));
+            Assert.AreEqual(4, chromosome.GetGene(3));
         }
 
         [Test()]
         public void Mutate_ValidChromosome_ExchangeGenes()
         {
             var target = new TworsMutation();
-            var chromosome = Substitute.For<ChromosomeBase>(4);
-            chromosome.ReplaceGenes(0, new Gene[]
-                                                     {
-                new Gene(1),
-                new Gene(2),
-                new Gene(3),
-                new Gene(4),
-            });
+            var chromosome = Substitute.For<ChromosomeBase<int>>(4);
+            chromosome.ReplaceGenes(0, new int[]{1,2,3,4});
 
             var rnd = Substitute.For<IRandomization>();
             rnd.GetUniqueInts(2, 0, 4).Returns(new int[] { 0, 2 });
@@ -62,10 +50,10 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             target.Mutate(chromosome, 1);
 
             Assert.AreEqual(4, chromosome.Length);
-            Assert.AreEqual(3, chromosome.GetGene(0).Value);
-            Assert.AreEqual(2, chromosome.GetGene(1).Value);
-            Assert.AreEqual(1, chromosome.GetGene(2).Value);
-            Assert.AreEqual(4, chromosome.GetGene(3).Value);
+            Assert.AreEqual(3, chromosome.GetGene(0));
+            Assert.AreEqual(2, chromosome.GetGene(1));
+            Assert.AreEqual(1, chromosome.GetGene(2));
+            Assert.AreEqual(4, chromosome.GetGene(3));
         }
     }
 }

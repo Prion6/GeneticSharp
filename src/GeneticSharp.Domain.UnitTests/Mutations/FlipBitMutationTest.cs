@@ -19,13 +19,8 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         public void Mutate_NotBinaryChromosome_Exception()
         {
             var target = new FlipBitMutation();
-            var chromosome =  Substitute.For<ChromosomeBase>(3);
-            chromosome.ReplaceGenes(0, new Gene[]
-                {
-                    new Gene(0),
-                    new Gene(0),
-                    new Gene(0)
-                });
+            var chromosome =  Substitute.For<ChromosomeBase<int>>(3);
+            chromosome.ReplaceGenes(0, new int[]{0,0,0});
 
             Assert.Catch<MutationException>(() =>
             {
@@ -41,17 +36,12 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
 
             var target = new FlipBitMutation();
             var chromosome = new BinaryChromosomeStub(3);
-            chromosome.ReplaceGenes(0, new Gene[]
-                {
-                    new Gene(0),
-                    new Gene(0),
-                    new Gene(0)
-                });
+            chromosome.ReplaceGenes(0, new int[]{0,0,0});
                     
             target.Mutate(chromosome, 1);
-            Assert.AreEqual(0, chromosome.GetGene(0).Value);
-            Assert.AreEqual(1, chromosome.GetGene(1).Value);
-            Assert.AreEqual(0, chromosome.GetGene(2).Value);
+            Assert.AreEqual(0, chromosome.GetGene(0));
+            Assert.AreEqual(1, chromosome.GetGene(1));
+            Assert.AreEqual(0, chromosome.GetGene(2));
         }
     }
 }

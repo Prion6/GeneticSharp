@@ -155,14 +155,14 @@ namespace GeneticSharp.Runner.GtkApp.Samples
 
                 for (int i = 0; i < genes.Length; i += 2)
                 {
-                    var cityOneIndex = Convert.ToInt32(genes[i].Value);
-                    var cityTwoIndex = Convert.ToInt32(genes[i + 1].Value);
+                    var cityOneIndex = Convert.ToInt32(genes[i]);
+                    var cityTwoIndex = Convert.ToInt32(genes[i + 1]);
                     var cityOne = m_fitness.Cities[cityOneIndex];
                     var cityTwo = m_fitness.Cities[cityTwoIndex];
 
                     if (i > 0)
                     {
-                        var previousCity = m_fitness.Cities[Convert.ToInt32(genes[i - 1].Value)];
+                        var previousCity = m_fitness.Cities[Convert.ToInt32(genes[i - 1])];
                         buffer.DrawLine(gc, previousCity.X, previousCity.Y, cityOne.X, cityOne.Y);
                     }
 
@@ -178,8 +178,8 @@ namespace GeneticSharp.Runner.GtkApp.Samples
                     }
                 }
 
-                var lastCity = m_fitness.Cities[Convert.ToInt32(genes[genes.Length - 1].Value)];
-                var firstCity = m_fitness.Cities[Convert.ToInt32(genes[0].Value)];
+                var lastCity = m_fitness.Cities[Convert.ToInt32(genes[genes.Length - 1])];
+                var firstCity = m_fitness.Cities[Convert.ToInt32(genes[0])];
                 buffer.DrawLine(gc, lastCity.X, lastCity.Y, firstCity.X, firstCity.Y);
 
                 Context.WriteText("Distance: {0:n2}", m_bestChromosome.Distance);

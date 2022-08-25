@@ -11,7 +11,7 @@ namespace GeneticSharp.Extensions.Mathematic
     /// <summary>
     /// Function builder chromosome.
     /// </summary>
-    public sealed class FunctionBuilderChromosome : ChromosomeBase
+    public sealed class FunctionBuilderChromosome : ChromosomeBase<string>
     {
         #region Constants
         /// <summary>
@@ -84,7 +84,7 @@ namespace GeneticSharp.Extensions.Mathematic
 
             foreach (var g in GetGenes())
             {
-                var op = g.Value.ToString();
+                var op = g.ToString();
 
                 if (!string.IsNullOrEmpty(op))
                 {
@@ -109,7 +109,7 @@ namespace GeneticSharp.Extensions.Mathematic
         /// </summary>
         /// <returns>The gene.</returns>
         /// <param name="geneIndex">Gene index.</param>
-        public override Gene GenerateGene(int geneIndex)
+        public override object GenerateGene(int geneIndex)
         {
             var rnd = Domain.Randomizations.RandomizationProvider.Current;
             var op = m_availableOperations[rnd.GetInt(0, m_availableOperations.Count)];
@@ -119,7 +119,7 @@ namespace GeneticSharp.Extensions.Mathematic
                 op = rnd.GetInt(0, MaxIntOperation + 1).ToString(CultureInfo.InvariantCulture);
             }
 
-            return new Gene(op);
+            return op;
         }
         #endregion
     }

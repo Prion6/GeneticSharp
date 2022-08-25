@@ -8,7 +8,7 @@ namespace GeneticSharp.Extensions.Ghostwriter
     /// <summary>
     /// Ghostwriter chromosome.
     /// </summary>
-    public sealed class GhostwriterChromosome : ChromosomeBase
+    public sealed class GhostwriterChromosome : ChromosomeBase<string>
     {
         #region Fields
         private readonly IList<string> m_words;
@@ -38,9 +38,9 @@ namespace GeneticSharp.Extensions.Ghostwriter
         /// </summary>
         /// <returns>The gene.</returns>
         /// <param name="geneIndex">Gene index.</param>
-        public override Gene GenerateGene(int geneIndex)
+        public override object GenerateGene(int geneIndex)
         {
-            return new Gene(m_words[RandomizationProvider.Current.GetInt(0, m_words.Count)]);
+            return m_words[RandomizationProvider.Current.GetInt(0, m_words.Count)];
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace GeneticSharp.Extensions.Ghostwriter
         /// <returns>The text.</returns>
         public string BuildText()
         {
-            return string.Join(" ", GetGenes().Select(g => g.Value.ToString()).ToArray());
+            return string.Join(" ", GetGenes<string>().Select(g => g).ToArray());
         }
         #endregion
     }

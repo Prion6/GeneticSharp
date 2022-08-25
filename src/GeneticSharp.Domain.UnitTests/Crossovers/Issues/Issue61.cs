@@ -9,7 +9,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers.Issues
 {
     public class Issue61
     {
-        public class GuessNumberChromosome : ChromosomeBase
+        public class GuessNumberChromosome : ChromosomeBase<int>
         {
 
             private const Int32 MaxGeneValue = 10;
@@ -36,7 +36,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers.Issues
                 var initGenes = RandomizationProvider.Current.GetUniqueInts(this.Length, MinGeneValue, MaxGeneValue);
                 for (int i = 0; i < this.Length; i++)
                 {
-                    this.ReplaceGene(i, new Gene(initGenes[i]));
+                    this.ReplaceGene(i, initGenes[i]);
                 }
             }
 
@@ -45,23 +45,23 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers.Issues
                 return new GuessNumberChromosome(this.numberDigits);
             }
 
-            public override Gene GenerateGene(int geneIndex)
+            public override object GenerateGene(int geneIndex)
             {
-                return new Gene(RandomizationProvider.Current.GetInt(MinGeneValue, MaxGeneValue));
+                return RandomizationProvider.Current.GetInt(MinGeneValue, MaxGeneValue);
             }
 
             public Int32 ToGuessValue()
             {
-                var genes = this.GetGenes();
+                var genes = this.GetGenes<int>();
                 return ToGuessValue(genes);
             }
 
-            public static Int32 ToGuessValue(Gene[] genes)
+            public static Int32 ToGuessValue(int[] genes)
             {
                 int guessValue = 0;
                 for (int i = genes.Length - 1; i >= 0; i--)
                 {
-                    guessValue += ((Int32)genes[i].Value * powof10[i]);
+                    guessValue += (genes[i] * powof10[i]);
                 }
                 return guessValue;
             }
@@ -81,7 +81,7 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers.Issues
 
             public double Evaluate(IChromosome chromosome)
             {
-                var genes = chromosome.GetGenes();
+                var genes = chromosome.GetGenes<int>();
                 int guessValue = GuessNumberChromosome.ToGuessValue(genes);
                 double fitness = 1.0 - (Math.Abs(this.finalAns - guessValue) / (double)this.maxDiffValue);
                 return fitness;

@@ -75,7 +75,7 @@ namespace GeneticSharp.Runner.ConsoleApp.Samples
             Console.WriteLine("Cities: {0:n0}", c.Length);
             Console.WriteLine("Distance: {0:n2}", c.Distance);
 
-            var cities = bestChromosome.GetGenes().Select(g => g.Value.ToString()).ToArray();
+            var cities = bestChromosome.GetGenes().Select(g => g.ToString()).ToArray();
             Console.WriteLine("City tour: {0}", string.Join(", ", cities));
         }
         #endregion

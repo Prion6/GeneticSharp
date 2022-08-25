@@ -11,7 +11,7 @@ namespace GeneticSharp.Extensions.Tsp
     /// </remarks>
     /// </summary>
     [Serializable]
-    public class TspChromosome : ChromosomeBase
+    public class TspChromosome : ChromosomeBase<int>
     {
         #region Fields
         private readonly int m_numberOfCities;
@@ -29,7 +29,7 @@ namespace GeneticSharp.Extensions.Tsp
 
             for (int i = 0; i < numberOfCities; i++)
             {
-                ReplaceGene(i, new Gene(citiesIndexes[i]));
+                ReplaceGene(i, citiesIndexes[i]);
             }
         }
         #endregion
@@ -48,9 +48,9 @@ namespace GeneticSharp.Extensions.Tsp
         /// </summary>
         /// <returns>The gene.</returns>
         /// <param name="geneIndex">Gene index.</param>
-        public override Gene GenerateGene(int geneIndex)
+        public override object GenerateGene(int geneIndex)
         {
-            return new Gene(RandomizationProvider.Current.GetInt(0, m_numberOfCities));
+            return RandomizationProvider.Current.GetInt(0, m_numberOfCities);
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace GeneticSharp.Extensions.Tsp
         /// <returns>The new chromosome.</returns>
         public override IChromosome CreateNew()
         {
-            return new TspChromosome(m_numberOfCities);
+            return (new TspChromosome(m_numberOfCities));
         }
 
         /// <summary>

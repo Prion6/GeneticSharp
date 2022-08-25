@@ -41,7 +41,7 @@ namespace GeneticSharp.Domain.Crossovers
             var parent2Genes = parents[1].GetGenes();
             var parent3Genes = parents[2].GetGenes();
             var offspring = parent1.CreateNew();
-            Gene parent1Gene;
+            object parent1Gene;
 
             for (int i = 0; i < parent1.Length; i++)
             {

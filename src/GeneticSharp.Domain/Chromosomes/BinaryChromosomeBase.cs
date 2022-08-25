@@ -7,7 +7,7 @@ namespace GeneticSharp.Domain.Chromosomes
     /// <summary>
     /// A base class for binary chromosome of 0 and 1 genes.
     /// </summary>
-    public abstract class BinaryChromosomeBase : ChromosomeBase, IBinaryChromosome
+    public abstract class BinaryChromosomeBase : ChromosomeBase<bool>, IBinaryChromosome
     {
         #region Constructors
         /// <summary>
@@ -29,9 +29,9 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <param name="index">The gene index.</param>
         public virtual void FlipGene (int index)    
         {
-            var value = (int) GetGene (index).Value;
+            var value = GetGene<bool>(index);
 
-            ReplaceGene (index, new Gene (value == 0 ? 1 : 0));
+            ReplaceGene (index, !value);
         }
 
         /// <summary>
@@ -39,10 +39,11 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </summary>
         /// <returns>The gene.</returns>
         /// <param name="geneIndex">Gene index.</param>
-        public override Gene GenerateGene (int geneIndex)
+        public override object GenerateGene (int geneIndex)
         {
-            return new Gene (RandomizationProvider.Current.GetInt (0, 2));
+            return RandomizationProvider.Current.GetInt (0, 2) == 0;
         }
+
 
         /// <summary>
         /// Returns a <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Domain.Chromosomes.BinaryChromosomeBase"/>.
@@ -50,7 +51,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <returns>A <see cref="System.String"/> that represents the current <see cref="GeneticSharp.Domain.Chromosomes.BinaryChromosomeBase"/>.</returns>
         public override string ToString ()
         {
-            return String.Join (string.Empty, GetGenes ().Select (g => g.Value.ToString()).ToArray());
+            return String.Join (string.Empty, GetGenes<bool>().Select (g => g.ToString()).ToArray());
         }
         #endregion
     }

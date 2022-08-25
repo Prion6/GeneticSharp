@@ -17,12 +17,12 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
         {
             var target = new FitnessBasedReinsertion();
 
-            var population = new Population(2, 3, Substitute.For<ChromosomeBase>(2));
+            var population = new Population(2, 3, Substitute.For<ChromosomeBase<int>>(2));
             var offspring = new List<IChromosome>() {
-                Substitute.For<ChromosomeBase> (2),
-                Substitute.For<ChromosomeBase> (2),
-                Substitute.For<ChromosomeBase> (3),
-                Substitute.For<ChromosomeBase> (4)
+                Substitute.For<ChromosomeBase<int>> (2),
+                Substitute.For<ChromosomeBase<int>> (2),
+                Substitute.For<ChromosomeBase<int>> (3),
+                Substitute.For<ChromosomeBase<int>> (4)
             };
 
             offspring[0].Fitness = 0.2;
@@ -31,10 +31,10 @@ namespace GeneticSharp.Domain.UnitTests.Reinsertions
             offspring[3].Fitness = 0.7;
 
             var parents = new List<IChromosome>() {
-                Substitute.For<ChromosomeBase> (5),
-                Substitute.For<ChromosomeBase> (6),
-                Substitute.For<ChromosomeBase> (7),
-                Substitute.For<ChromosomeBase> (8)
+                Substitute.For<ChromosomeBase<int>> (5),
+                Substitute.For<ChromosomeBase<int>> (6),
+                Substitute.For<ChromosomeBase<int>> (7),
+                Substitute.For<ChromosomeBase<int>> (8)
             };
 
             var selected = target.SelectChromosomes(population, offspring, parents);

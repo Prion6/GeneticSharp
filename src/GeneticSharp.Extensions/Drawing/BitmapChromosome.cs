@@ -8,7 +8,7 @@ namespace GeneticSharp.Extensions.Drawing
     /// <summary>
     /// A chromosome that represents a bitmap.
     /// </summary>
-    public sealed class BitmapChromosome : ChromosomeBase
+    public sealed class BitmapChromosome : ChromosomeBase<Color>
     {
         #region Constructors        
         /// <summary>
@@ -75,11 +75,11 @@ namespace GeneticSharp.Extensions.Drawing
         /// </summary>
         /// <param name="geneIndex">Index of the gene.</param>
         /// <returns>The new Gene.</returns>
-        public override Gene GenerateGene(int geneIndex)
+        public override object GenerateGene(int geneIndex)
         {
             var rnd = RandomizationProvider.Current;
 
-            return new Gene(Color.FromArgb(rnd.GetInt(0, 256), rnd.GetInt(0, 256), rnd.GetInt(0, 256)));
+            return Color.FromArgb(rnd.GetInt(0, 256), rnd.GetInt(0, 256), rnd.GetInt(0, 256));
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace GeneticSharp.Extensions.Drawing
             {
                 for (int y = 0; y < Height; y++)
                 {
-                    result.SetPixel(x, y, (Color)GetGene(geneIndex++).Value);
+                    result.SetPixel(x, y, GetGene<Color>(geneIndex++));
                 }
             }
 

@@ -9,7 +9,7 @@ namespace GeneticSharp.Extensions.Sudoku
     /// This more elaborated chromosome manipulates rows instead of cells, and each of its 9 gene holds an integer for the index of the row's permutation amongst all that respect the target mask.
     /// Permutations are computed once when a new Sudoku is encountered, and stored in a static dictionary for further reference.
     /// </summary>
-    public class SudokuPermutationsChromosome : SudokuChromosomeBase, ISudokuChromosome
+    public class SudokuPermutationsChromosome : SudokuChromosomeBase<int>, ISudokuChromosome
     {
        
 
@@ -56,13 +56,13 @@ namespace GeneticSharp.Extensions.Sudoku
         /// </summary>
         /// <param name="geneIndex">the index for the gene</param>
         /// <returns>a gene generated for the index</returns>
-        public override Gene GenerateGene(int geneIndex)
+        public override object GenerateGene(int geneIndex)
         {
 
             var rnd = RandomizationProvider.Current;
             //we randomize amongst the permutations that account for the target mask.
             var permIdx = rnd.GetInt(0, TargetRowsPermutations[geneIndex].Count);
-            return new Gene(permIdx);
+            return permIdx;
         }
 
         public override IChromosome CreateNew()
@@ -126,7 +126,7 @@ namespace GeneticSharp.Extensions.Sudoku
         /// <returns>the index of the permutation to apply</returns>
         protected virtual int GetPermutationIndex(int rowIndex)
         {
-            return (int)GetGene(rowIndex).Value;
+            return (int)GetGene(rowIndex);
         }
 
 

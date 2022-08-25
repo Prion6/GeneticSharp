@@ -12,8 +12,8 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         public void FlipGene_Index_ValueFlip()
         {
             var target = new BinaryChromosomeStub (2);
-            target.ReplaceGenes (0, new Gene[] {
-                new Gene(0), new Gene(1)
+            target.ReplaceGenes (0, new bool[] {
+                false, true
             });
 
             Assert.AreEqual ("01", target.ToString ());
@@ -32,18 +32,18 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
 
             for (int i = 0; i < 100; i++) {
                 var target = new BinaryChromosomeStub (2);
-                var gene0 = target.GenerateGene (0);
-                Assert.IsInstanceOf<int> (gene0.Value);
+                var gene0 = target.GenerateGene<bool>(0);
+                Assert.IsInstanceOf<bool> (gene0);
 
-                var gene1 = target.GenerateGene (1);
-                Assert.IsInstanceOf<int> (gene1.Value);
+                var gene1 = target.GenerateGene<bool>(1);
+                Assert.IsInstanceOf<bool> (gene1);
 
-                target.ReplaceGenes(0, new Gene[] { gene0, gene1 });
+                target.ReplaceGenes(0, new bool[] { gene0, gene1 });
 
                 chromosomes.Add (target);
             }
 
-            Assert.IsTrue (chromosomes.Any (c => c.GetGenes ().Any (g => ((int)g.Value) == 0)));
+            Assert.IsTrue (chromosomes.Any (c => c.GetGenes ().Any (g => ((int)g) == 0)));
         }
     }
 }

@@ -56,7 +56,7 @@ namespace GeneticSharp.Domain.Crossovers
         private IChromosome CreateChild(IChromosome firstParent, IChromosome secondParent)
         {
             var child = firstParent.CreateNew();
-            var childGenes = new Gene[firstParent.Length];
+            var childGenes = new object[firstParent.Length];
             var childGenesIndex = 0;
 
             for (int i = 0; i < firstParent.Length && childGenesIndex < firstParent.Length; i++)
@@ -73,7 +73,7 @@ namespace GeneticSharp.Domain.Crossovers
             return child;
         }
 
-        private static void AddChildGene(Gene[] childGenes, ref int childGenesIndex, Gene parentGene)
+        private static void AddChildGene(object[] childGenes, ref int childGenesIndex, object parentGene)
         {
             if (!childGenes.Contains(parentGene))
             {

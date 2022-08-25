@@ -90,7 +90,7 @@ namespace GeneticSharp.Domain.Crossovers
             return new List<IChromosome>() { offspring1, offspring2 };
         }
 
-        private Gene GetGeneNotInMappingSection(Gene candidateGene, Gene[] mappingSection, Gene[] otherParentMappingSection)
+        private object GetGeneNotInMappingSection(object candidateGene, object[] mappingSection, object[] otherParentMappingSection)
         {
             var indexOnMappingSection = mappingSection
                 .Select((item, index) => new { Gene = item, Index = index })

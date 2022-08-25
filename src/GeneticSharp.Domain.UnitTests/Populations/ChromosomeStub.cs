@@ -3,7 +3,7 @@ using GeneticSharp.Domain.Randomizations;
 
 namespace GeneticSharp.Domain.UnitTests
 {
-    public class ChromosomeStub : ChromosomeBase
+    public class ChromosomeStub : ChromosomeBase<int>
     {
         private int _maxValue = 5;
 
@@ -26,9 +26,9 @@ namespace GeneticSharp.Domain.UnitTests
             CreateGene(3);
         }
 
-        public override Gene GenerateGene(int geneIndex)
+        public override object GenerateGene(int geneIndex)
         {
-            return new Gene(RandomizationProvider.Current.GetInt(0, _maxValue + 1));
+            return RandomizationProvider.Current.GetInt(0, _maxValue + 1);
         }
 
         public override IChromosome CreateNew()

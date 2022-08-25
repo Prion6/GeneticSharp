@@ -7,7 +7,7 @@ namespace GeneticSharp.Extensions.Sudoku
     /// <summary>
     /// This abstract chromosome accounts for the target mask if given, and generates an extended mask with cell domains updated according to original mask
     /// </summary>
-    public abstract class SudokuChromosomeBase : ChromosomeBase, ISudokuChromosome
+    public abstract class SudokuChromosomeBase<T> : ChromosomeBase<T>, ISudokuChromosome
     {
 
         /// <summary>

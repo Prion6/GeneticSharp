@@ -11,7 +11,7 @@ namespace GeneticSharp.Extensions.Multiple
     /// Compound chromosome to artificially increase genetics diversity by evolving a list of chromosome instead of just one.
     /// Sub-genes are inlined into a single compound list of genes
     /// </summary>
-    public class MultipleChromosome : ChromosomeBase
+    public class MultipleChromosome : ChromosomeBase<object>
     {
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace GeneticSharp.Extensions.Multiple
         /// </summary>
         /// <param name="geneIndex">the gene index in parent chromosome</param>
         /// <returns></returns>
-        public override Gene GenerateGene(int geneIndex)
+        public override object GenerateGene(int geneIndex)
         {
             return Chromosomes[geneIndex / Chromosomes[0].Length]
               .GenerateGene(geneIndex - ((geneIndex / Chromosomes[0].Length) * Chromosomes[0].Length));

@@ -7,7 +7,7 @@ namespace GeneticSharp.Extensions.Mathematic
     /// <summary>
     /// An equation chromosome.
     /// </summary>
-    public sealed class EquationChromosome : ChromosomeBase
+    public sealed class EquationChromosome : ChromosomeBase<int>
     {
         #region Constructors        
         /// <summary>
@@ -54,9 +54,9 @@ namespace GeneticSharp.Extensions.Mathematic
         /// </summary>
         /// <param name="geneIndex">Index of the gene.</param>
         /// <returns>The generated gene.</returns>
-        public override Gene GenerateGene(int geneIndex)
+        public override object GenerateGene(int geneIndex)
         {
-            return new Gene(RandomizationProvider.Current.GetInt(ResultRange * -1, ResultRange + 1));
+            return RandomizationProvider.Current.GetInt(ResultRange * -1, ResultRange + 1);
         }
         #endregion
     }

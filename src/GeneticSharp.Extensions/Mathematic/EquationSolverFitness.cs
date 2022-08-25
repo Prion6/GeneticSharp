@@ -11,7 +11,7 @@ namespace GeneticSharp.Extensions.Mathematic
     {
         #region Fields
         private readonly int m_expectedResult;
-        private readonly Func<Gene[], int> m_getEquationResult;
+        private readonly Func<int[], int> m_getEquationResult;
         #endregion
 
         #region Constructors
@@ -20,7 +20,7 @@ namespace GeneticSharp.Extensions.Mathematic
         /// </summary>
         /// <param name="expectedResult">Expected result.</param>
         /// <param name="getEquationResult">Get equation result.</param>
-        public EquationSolverFitness(int expectedResult, Func<Gene[], int> getEquationResult)
+        public EquationSolverFitness(int expectedResult, Func<int[], int> getEquationResult)
         {
             m_expectedResult = expectedResult;
             m_getEquationResult = getEquationResult;
@@ -37,7 +37,7 @@ namespace GeneticSharp.Extensions.Mathematic
         {
             var equalityChromosome = chromosome as EquationChromosome;
 
-            var fitness = Math.Abs(m_getEquationResult(equalityChromosome.GetGenes()) - m_expectedResult);
+            var fitness = Math.Abs(m_getEquationResult(equalityChromosome.GetGenes<int>()) - m_expectedResult);
 
             return fitness * -1;
         }

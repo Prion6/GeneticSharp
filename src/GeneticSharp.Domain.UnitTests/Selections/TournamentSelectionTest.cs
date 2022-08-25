@@ -58,10 +58,10 @@ namespace GeneticSharp.Domain.UnitTests.Selections
         {
             var target = new TournamentSelection(3, true);
 
-            var c0 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            var c0 = Substitute.ForPartsOf<ChromosomeBase<int>>(2);
             c0.Fitness = 0.1;
 
-            var c1 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            var c1 = Substitute.ForPartsOf<ChromosomeBase<int>>(2);
             c1.Fitness = 0.5;
 
 
@@ -80,22 +80,22 @@ namespace GeneticSharp.Domain.UnitTests.Selections
         {
             var target = new TournamentSelection(3, true);
 
-            var c0 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            var c0 = Substitute.ForPartsOf<ChromosomeBase<int>>(2);
             c0.Fitness = 0.1;
 
-            var c1 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            var c1 = Substitute.ForPartsOf<ChromosomeBase<int>>(2);
             c1.Fitness = 0.5;
 
-            var c2 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            var c2 = Substitute.ForPartsOf<ChromosomeBase<int>>(2);
             c2.Fitness = 0;
 
-            var c3 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            var c3 = Substitute.ForPartsOf<ChromosomeBase<int>>(2);
             c3.Fitness = 0.7;
 
-            var c4 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            var c4 = Substitute.ForPartsOf<ChromosomeBase<int>>(2);
             c4.Fitness = 0.3;
 
-            var c5 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            var c5 = Substitute.ForPartsOf<ChromosomeBase<int>>(2);
             c5.Fitness = 0.2;
 
             var generation = new Generation(1, new List<IChromosome>() {
@@ -124,22 +124,22 @@ namespace GeneticSharp.Domain.UnitTests.Selections
         {
             var target = new TournamentSelection(3, false);
 
-            var c0 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            var c0 = Substitute.ForPartsOf<ChromosomeBase<int>>(2);
             c0.Fitness = 0.1;
 
-            var c1 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            var c1 = Substitute.ForPartsOf<ChromosomeBase<int>>(2);
             c1.Fitness = 0.5;
 
-            var c2 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            var c2 = Substitute.ForPartsOf<ChromosomeBase<int>>(2);
             c2.Fitness = 0;
 
-            var c3 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            var c3 = Substitute.ForPartsOf<ChromosomeBase<int>>(2);
             c3.Fitness = 0.7;
 
-            var c4 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            var c4 = Substitute.ForPartsOf<ChromosomeBase<int>>(2);
             c4.Fitness = 0.3;
 
-            var c5 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            var c5 = Substitute.ForPartsOf<ChromosomeBase<int>>(2);
             c5.Fitness = 0.2;
 
             var generation = new Generation(1, new List<IChromosome>() {

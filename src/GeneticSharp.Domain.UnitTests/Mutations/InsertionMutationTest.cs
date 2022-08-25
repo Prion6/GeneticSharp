@@ -21,11 +21,8 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         public void Mutate_LessThanThreeGenes_Exception()
         {
             var target = new InsertionMutation();
-            var chromosome = Substitute.For<ChromosomeBase>(2);
-            chromosome.ReplaceGenes(0, new Gene[]
-                                    {
-                new Gene(1),
-            });
+            var chromosome = Substitute.For<ChromosomeBase<int>>(2);
+            chromosome.ReplaceGenes(0, new int[]{1});
 
             Assert.Catch<MutationException>(() =>
             {
@@ -37,14 +34,8 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         public void Mutate_NoProbality_NoInsertion()
         {
             var target = new InsertionMutation();
-            var chromosome = Substitute.For<ChromosomeBase>(4);
-            chromosome.ReplaceGenes(0, new Gene[]
-                                    {
-                new Gene(1),
-                new Gene(2),
-                new Gene(3),
-                new Gene(4),
-            });
+            var chromosome = Substitute.For<ChromosomeBase<int>>(4);
+            chromosome.ReplaceGenes(0, new int[]{1,2,3,4});
 
             var rnd = Substitute.For<IRandomization>();
             rnd.GetDouble().Returns(0.1);
@@ -53,28 +44,18 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             target.Mutate(chromosome, 0);
 
             Assert.AreEqual(4, chromosome.Length);
-            Assert.AreEqual(1, chromosome.GetGene(0).Value);
-            Assert.AreEqual(2, chromosome.GetGene(1).Value);
-            Assert.AreEqual(3, chromosome.GetGene(2).Value);
-            Assert.AreEqual(4, chromosome.GetGene(3).Value);
+            Assert.AreEqual(1, chromosome.GetGene(0));
+            Assert.AreEqual(2, chromosome.GetGene(1));
+            Assert.AreEqual(3, chromosome.GetGene(2));
+            Assert.AreEqual(4, chromosome.GetGene(3));
         }
 
         [Test()]
         public void Mutate_ValidChromosome_Insertion_To_Left()
         {
             var target = new InsertionMutation();
-            var chromosome = Substitute.For<ChromosomeBase>(8);
-            chromosome.ReplaceGenes(0, new Gene[]
-                                    {
-                new Gene(1),
-                new Gene(2),
-                new Gene(3),
-                new Gene(4),
-                new Gene(5),
-                new Gene(6),
-                new Gene(7),
-                new Gene(8),
-            });
+            var chromosome = Substitute.For<ChromosomeBase<int>>(8);
+            chromosome.ReplaceGenes(0, new int[]{1,2,3,4,5,6,7,8});
 
             var rnd = Substitute.For<IRandomization>();
             rnd.GetUniqueInts(2, 0, 8).Returns(new int[] { 1, 6 });
@@ -83,32 +64,22 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             target.Mutate(chromosome, 1);
 
             Assert.AreEqual(8, chromosome.Length);
-            Assert.AreEqual(1, chromosome.GetGene(0).Value);
-            Assert.AreEqual(3, chromosome.GetGene(1).Value);
-            Assert.AreEqual(4, chromosome.GetGene(2).Value);
-            Assert.AreEqual(5, chromosome.GetGene(3).Value);
-            Assert.AreEqual(6, chromosome.GetGene(4).Value);
-            Assert.AreEqual(7, chromosome.GetGene(5).Value);
-            Assert.AreEqual(2, chromosome.GetGene(6).Value);
-            Assert.AreEqual(8, chromosome.GetGene(7).Value);
+            Assert.AreEqual(1, chromosome.GetGene(0));
+            Assert.AreEqual(3, chromosome.GetGene(1));
+            Assert.AreEqual(4, chromosome.GetGene(2));
+            Assert.AreEqual(5, chromosome.GetGene(3));
+            Assert.AreEqual(6, chromosome.GetGene(4));
+            Assert.AreEqual(7, chromosome.GetGene(5));
+            Assert.AreEqual(2, chromosome.GetGene(6));
+            Assert.AreEqual(8, chromosome.GetGene(7));
         }
 
         [Test()]
         public void Mutate_ValidChromosome_Insertion_To_Right()
         {
             var target = new InsertionMutation();
-            var chromosome = Substitute.For<ChromosomeBase>(8);
-            chromosome.ReplaceGenes(0, new Gene[]
-                                    {
-                new Gene(1),
-                new Gene(2),
-                new Gene(3),
-                new Gene(4),
-                new Gene(5),
-                new Gene(6),
-                new Gene(7),
-                new Gene(8),
-            });
+            var chromosome = Substitute.For<ChromosomeBase<int>>(8);
+            chromosome.ReplaceGenes(0, new int[]{1,2,3,4,5,6,7,8});
 
             var rnd = Substitute.For<IRandomization>();
             rnd.GetUniqueInts(2, 0, 8).Returns(new int[] { 1, 6 });
@@ -117,14 +88,14 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
             target.Mutate(chromosome, 1);
 
             Assert.AreEqual(8, chromosome.Length);
-            Assert.AreEqual(1, chromosome.GetGene(0).Value);
-            Assert.AreEqual(7, chromosome.GetGene(1).Value);
-            Assert.AreEqual(2, chromosome.GetGene(2).Value);
-            Assert.AreEqual(3, chromosome.GetGene(3).Value);
-            Assert.AreEqual(4, chromosome.GetGene(4).Value);
-            Assert.AreEqual(5, chromosome.GetGene(5).Value);
-            Assert.AreEqual(6, chromosome.GetGene(6).Value);
-            Assert.AreEqual(8, chromosome.GetGene(7).Value);
+            Assert.AreEqual(1, chromosome.GetGene(0));
+            Assert.AreEqual(7, chromosome.GetGene(1));
+            Assert.AreEqual(2, chromosome.GetGene(2));
+            Assert.AreEqual(3, chromosome.GetGene(3));
+            Assert.AreEqual(4, chromosome.GetGene(4));
+            Assert.AreEqual(5, chromosome.GetGene(5));
+            Assert.AreEqual(6, chromosome.GetGene(6));
+            Assert.AreEqual(8, chromosome.GetGene(7));
         }
     }
 }

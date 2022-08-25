@@ -21,7 +21,7 @@ namespace GeneticSharp.Extensions.UnitTests.Tsp
         public void GenerateGene_FitnessLowerThanZero_Zero()
         {
             var target = new TspChromosome(10);
-            var cityIndex = Convert.ToDouble(target.GenerateGene(0).Value);
+            var cityIndex = Convert.ToDouble(target.GenerateGene(0));
             Assert.IsTrue(cityIndex >= 0 && cityIndex < 10);
         }
 

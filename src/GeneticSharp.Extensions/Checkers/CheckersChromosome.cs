@@ -7,7 +7,7 @@ namespace GeneticSharp.Extensions.Checkers
     /// <summary>
     /// Checkers chromosome.
     /// </summary>
-    public sealed class CheckersChromosome : ChromosomeBase
+    public sealed class CheckersChromosome : ChromosomeBase<CheckersMove>
     {
         #region Fields
         private readonly int m_boardSize;
@@ -47,7 +47,7 @@ namespace GeneticSharp.Extensions.Checkers
         /// </summary>
         /// <returns>The gene.</returns>
         /// <param name="geneIndex">Gene index.</param>
-        public override Gene GenerateGene(int geneIndex)
+        public override object GenerateGene(int geneIndex)
         {
             var from = FindPlayableSquare();
             from.PutPiece(new CheckersPiece(CheckersPlayer.PlayerOne));
@@ -57,7 +57,7 @@ namespace GeneticSharp.Extensions.Checkers
 
             Moves[geneIndex] = move;
 
-            return new Gene(move);
+            return move;
         }
 
         /// <summary>

@@ -21,15 +21,6 @@ namespace GeneticSharp.Benchmarks
         }
 
         [Benchmark]
-        public IMutation FlipBitMutation()
-        {
-            var target = new FlipBitMutation();
-            target.Mutate(new FloatingPointChromosome(0, _numberOfCities, 0), _probability);
-
-            return target;
-        }
-
-        [Benchmark]
         public IMutation InsertionMutation()
         {
             var target = new InsertionMutation();

@@ -75,14 +75,14 @@ namespace GeneticSharp.Domain.Crossovers
             {
                 // If in this set an element occurs at least the threshold number of times, it is copied into the offspring.
                  var moreOcurrencesGeneValue = parents
-                                            .GroupBy(p => p.GetGene(i).Value)
+                                            .GroupBy(p => p.GetGene(i))
                                             .Where(p => p.Count() >= _threshold)
                                             .OrderByDescending(g => g.Count())
                                             .FirstOrDefault();
 
                 if (moreOcurrencesGeneValue != null)
                 {
-                    child.ReplaceGene(i, new Gene(moreOcurrencesGeneValue.Key));
+                    child.ReplaceGene(i, moreOcurrencesGeneValue.Key);
                 }
                 else
                 {

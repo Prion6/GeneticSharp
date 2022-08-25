@@ -23,36 +23,13 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         {
             var target = new PositionBasedCrossover();
 
-            var chromosome1 = Substitute.For<ChromosomeBase>(10);
-            chromosome1.ReplaceGenes(0, new Gene[] {
-                new Gene(8),
-                new Gene(4),
-                new Gene(7),
-                new Gene(3),
-                new Gene(6),
-                new Gene(2),
-                new Gene(5),
-                new Gene(1),
-                new Gene(9),
-                new Gene(0)
-            });
-            chromosome1.CreateNew().Returns(Substitute.For<ChromosomeBase>(10));
+            var chromosome1 = Substitute.For<ChromosomeBase<int>>(10);
+            chromosome1.ReplaceGenes(0, new int[] {8,4,7,3,6,2,5,1,9,0});
+            chromosome1.CreateNew().Returns(Substitute.For<ChromosomeBase<int>>(10));
 
-            var chromosome2 = Substitute.For<ChromosomeBase>(10);
-            chromosome2.ReplaceGenes(0, new Gene[]
-            {
-                new Gene(0),
-                new Gene(1),
-                new Gene(2),
-                new Gene(3),
-                new Gene(5),
-                new Gene(5),
-                new Gene(6),
-                new Gene(7),
-                new Gene(8),
-                new Gene(9),
-            });
-            chromosome2.CreateNew().Returns(Substitute.For<ChromosomeBase>(10));
+            var chromosome2 = Substitute.For<ChromosomeBase<int>>(10);
+            chromosome2.ReplaceGenes(0, new int[]{0,1,2,3,4,5,6,7,8,9});
+            chromosome2.CreateNew().Returns(Substitute.For<ChromosomeBase<int>>(10));
 
             Assert.Catch<CrossoverException>(() =>
             {
@@ -66,32 +43,14 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             var target = new PositionBasedCrossover();
 
             // 1 2 3 4 5 6 7 8
-            var chromosome1 = Substitute.For<ChromosomeBase>(8);
-            chromosome1.ReplaceGenes(0, new Gene[] {
-                new Gene(1),
-                new Gene(2),
-                new Gene(3),
-                new Gene(4),
-                new Gene(5),
-                new Gene(6),
-                new Gene(7),
-                new Gene(8)            });
-            chromosome1.CreateNew().Returns(Substitute.For<ChromosomeBase>(8));
+            var chromosome1 = Substitute.For<ChromosomeBase<int>>(8);
+            chromosome1.ReplaceGenes(0, new int[] {1,2,3,4,5,6,7,8});
+            chromosome1.CreateNew().Returns(Substitute.For<ChromosomeBase<int>>(8));
 
             // 2 4 6 8 7 5 3 1
-            var chromosome2 = Substitute.For<ChromosomeBase>(8);
-            chromosome2.ReplaceGenes(0, new Gene[]
-            {
-                new Gene(2),
-                new Gene(4),
-                new Gene(6),
-                new Gene(8),
-                new Gene(7),
-                new Gene(5),
-                new Gene(3),
-                new Gene(1)
-            });
-            chromosome2.CreateNew().Returns(Substitute.For<ChromosomeBase>(8));
+            var chromosome2 = Substitute.For<ChromosomeBase<int>>(8);
+            chromosome2.ReplaceGenes(0, new int[]{2,4,6,8,7,5,3,1});
+            chromosome2.CreateNew().Returns(Substitute.For<ChromosomeBase<int>>(8));
 
             // Child one: 1 4 6 2 3 5 7 8
             // Child two: 4 2 3 8 7 6 5 1
@@ -111,23 +70,23 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             Assert.AreEqual(8, childOne.GetGenes().Distinct().Count());
             Assert.AreEqual(8, childTwo.GetGenes().Distinct().Count());
 
-            Assert.AreEqual(1, childOne.GetGene(0).Value);
-            Assert.AreEqual(4, childOne.GetGene(1).Value);
-            Assert.AreEqual(6, childOne.GetGene(2).Value);
-            Assert.AreEqual(2, childOne.GetGene(3).Value);
-            Assert.AreEqual(3, childOne.GetGene(4).Value);
-            Assert.AreEqual(5, childOne.GetGene(5).Value);
-            Assert.AreEqual(7, childOne.GetGene(6).Value);
-            Assert.AreEqual(8, childOne.GetGene(7).Value);
+            Assert.AreEqual(1, childOne.GetGene(0));
+            Assert.AreEqual(4, childOne.GetGene(1));
+            Assert.AreEqual(6, childOne.GetGene(2));
+            Assert.AreEqual(2, childOne.GetGene(3));
+            Assert.AreEqual(3, childOne.GetGene(4));
+            Assert.AreEqual(5, childOne.GetGene(5));
+            Assert.AreEqual(7, childOne.GetGene(6));
+            Assert.AreEqual(8, childOne.GetGene(7));
 
-            Assert.AreEqual(4, childTwo.GetGene(0).Value);
-            Assert.AreEqual(2, childTwo.GetGene(1).Value);
-            Assert.AreEqual(3, childTwo.GetGene(2).Value);
-            Assert.AreEqual(8, childTwo.GetGene(3).Value);
-            Assert.AreEqual(7, childTwo.GetGene(4).Value);
-            Assert.AreEqual(6, childTwo.GetGene(5).Value);
-            Assert.AreEqual(5, childTwo.GetGene(6).Value);
-            Assert.AreEqual(1, childTwo.GetGene(7).Value);
+            Assert.AreEqual(4, childTwo.GetGene(0));
+            Assert.AreEqual(2, childTwo.GetGene(1));
+            Assert.AreEqual(3, childTwo.GetGene(2));
+            Assert.AreEqual(8, childTwo.GetGene(3));
+            Assert.AreEqual(7, childTwo.GetGene(4));
+            Assert.AreEqual(6, childTwo.GetGene(5));
+            Assert.AreEqual(5, childTwo.GetGene(6));
+            Assert.AreEqual(1, childTwo.GetGene(7));
         }
 
         [Test]
@@ -136,29 +95,14 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             var target = new PositionBasedCrossover();
 
             // 1 5 4 0 3 2
-            var chromosome1 = Substitute.For<ChromosomeBase>(6);
-            chromosome1.ReplaceGenes(0, new Gene[] {
-                new Gene(1),
-                new Gene(5),
-                new Gene(4),
-                new Gene(0),
-                new Gene(3),
-                new Gene(2)
-            });
-            chromosome1.CreateNew().Returns(Substitute.For<ChromosomeBase>(6));
+            var chromosome1 = Substitute.For<ChromosomeBase<int>>(6);
+            chromosome1.ReplaceGenes(0, new int[] {1,5,4,0,3,2});
+            chromosome1.CreateNew().Returns(Substitute.For<ChromosomeBase<int>>(6));
 
             // 2 3 5 0 1 4
-            var chromosome2 = Substitute.For<ChromosomeBase>(6);
-            chromosome2.ReplaceGenes(0, new Gene[]
-            {
-                new Gene(2),
-                new Gene(3),
-                new Gene(5),
-                new Gene(0),
-                new Gene(1),
-                new Gene(4)
-            });
-            chromosome2.CreateNew().Returns(Substitute.For<ChromosomeBase>(6));
+            var chromosome2 = Substitute.For<ChromosomeBase<int>>(6);
+            chromosome2.ReplaceGenes(0, new int[]{2,3,5,0,1,4});
+            chromosome2.CreateNew().Returns(Substitute.For<ChromosomeBase<int>>(6));
 
             // Child one: 4 3 5 0 1 2
             // Child two: 2 5 4 0 3 1
@@ -178,19 +122,19 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             Assert.AreEqual(6, childOne.GetGenes().Distinct().Count());
             Assert.AreEqual(6, childTwo.GetGenes().Distinct().Count());
 
-            Assert.AreEqual(4, childOne.GetGene(0).Value);
-            Assert.AreEqual(3, childOne.GetGene(1).Value);
-            Assert.AreEqual(5, childOne.GetGene(2).Value);
-            Assert.AreEqual(0, childOne.GetGene(3).Value);
-            Assert.AreEqual(1, childOne.GetGene(4).Value);
-            Assert.AreEqual(2, childOne.GetGene(5).Value);
+            Assert.AreEqual(4, childOne.GetGene(0));
+            Assert.AreEqual(3, childOne.GetGene(1));
+            Assert.AreEqual(5, childOne.GetGene(2));
+            Assert.AreEqual(0, childOne.GetGene(3));
+            Assert.AreEqual(1, childOne.GetGene(4));
+            Assert.AreEqual(2, childOne.GetGene(5));
 
-            Assert.AreEqual(2, childTwo.GetGene(0).Value);
-            Assert.AreEqual(5, childTwo.GetGene(1).Value);
-            Assert.AreEqual(4, childTwo.GetGene(2).Value);
-            Assert.AreEqual(0, childTwo.GetGene(3).Value);
-            Assert.AreEqual(3, childTwo.GetGene(4).Value);
-            Assert.AreEqual(1, childTwo.GetGene(5).Value);
+            Assert.AreEqual(2, childTwo.GetGene(0));
+            Assert.AreEqual(5, childTwo.GetGene(1));
+            Assert.AreEqual(4, childTwo.GetGene(2));
+            Assert.AreEqual(0, childTwo.GetGene(3));
+            Assert.AreEqual(3, childTwo.GetGene(4));
+            Assert.AreEqual(1, childTwo.GetGene(5));
         }
     }
 }

@@ -17,17 +17,17 @@ namespace GeneticSharp.Extensions.UnitTests.Mathematic
                              3,
                              (genes) =>
                              {
-                                 return genes.Select(g => (int)g.Value).Sum();
+                                 return genes.Select(g => (int)g).Sum();
                              });
 
             var chromosome = new EquationChromosome(3, 2);
-            chromosome.ReplaceGene(0, new Gene(1));
-            chromosome.ReplaceGene(1, new Gene(2));
+            chromosome.ReplaceGene(0, 1);
+            chromosome.ReplaceGene(1, 2);
 
             var actual = target.Evaluate(chromosome);
             Assert.AreEqual(0, actual);
 
-            chromosome.ReplaceGene(1, new Gene(3));
+            chromosome.ReplaceGene(1, 3);
 
             actual = target.Evaluate(chromosome);
             Assert.AreEqual(-1, actual);

@@ -14,7 +14,7 @@ namespace GeneticSharp.Extensions.Sudoku
     /// <summary>
 	/// This simple chromosome simply represents each cell by a gene with value between 1 and 9, accounting for the target mask if given
 	/// </summary>
-	public class SudokuCellsChromosome : SudokuChromosomeBase, ISudokuChromosome
+	public class SudokuCellsChromosome : SudokuChromosomeBase<int>, ISudokuChromosome
     {
        
 
@@ -38,17 +38,17 @@ namespace GeneticSharp.Extensions.Sudoku
 	    }
 
 
-	    public override Gene GenerateGene(int geneIndex)
+	    public override object GenerateGene(int geneIndex)
         {
             //If a target mask exist and has a digit for the cell, we use it.
             if (TargetSudokuBoard != null && TargetSudokuBoard.Cells[geneIndex] != 0)
             {
-                return new Gene(TargetSudokuBoard.Cells[geneIndex]);
+                return TargetSudokuBoard.Cells[geneIndex];
             }
             // otherwise we use a random digit amongts those permitted.
 			var rnd = RandomizationProvider.Current;
 	        var targetIdx = rnd.GetInt(0, ExtendedMask[geneIndex].Count);
-			return new Gene(ExtendedMask[geneIndex][targetIdx]);
+			return ExtendedMask[geneIndex][targetIdx];
         }
 
         public override IChromosome CreateNew()
@@ -62,7 +62,7 @@ namespace GeneticSharp.Extensions.Sudoku
         /// <returns>A Sudoku board built from the 81 genes</returns>
         public override IList<SudokuBoard> GetSudokus()
         {
-            var sudoku = new SudokuBoard(GetGenes().Select(g => (int)g.Value));
+            var sudoku = new SudokuBoard(GetGenes<int>().Select(g => g));
             return new List<SudokuBoard>(new[] { sudoku });
         }
     }

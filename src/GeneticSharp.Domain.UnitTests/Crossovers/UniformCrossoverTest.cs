@@ -20,25 +20,13 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
         [Test]
         public void Cross_ParentsWithTwoGenesProbabilityDiffPercents_DiffChildren()
         {
-            var chromosome1 = Substitute.For<ChromosomeBase>(4);
-            chromosome1.ReplaceGenes(0, new Gene[]
-            {
-                new Gene(1),
-                new Gene(2),
-                new Gene(3),
-                new Gene(4),
-            });
-            chromosome1.CreateNew().Returns(Substitute.For<ChromosomeBase>(4));
+            var chromosome1 = Substitute.For<ChromosomeBase<int>>(4);
+            chromosome1.ReplaceGenes(0, new int[]{1,2,3,4});
+            chromosome1.CreateNew().Returns(Substitute.For<ChromosomeBase<int>>(4));
 
-            var chromosome2 = Substitute.For<ChromosomeBase>(4);
-            chromosome2.ReplaceGenes(0, new Gene[]
-            {
-                new Gene(5),
-                new Gene(6),
-                new Gene(7),
-                new Gene(8)
-            });
-            chromosome2.CreateNew().Returns(Substitute.For<ChromosomeBase>(4));
+            var chromosome2 = Substitute.For<ChromosomeBase<int>>(4);
+            chromosome2.ReplaceGenes(0, new int[]{5,6,7,8});
+            chromosome2.CreateNew().Returns(Substitute.For<ChromosomeBase<int>>(4));
             var parents = new List<IChromosome>() { chromosome1, chromosome2 };
 
             var rnd = Substitute.For<IRandomization>();
@@ -54,15 +42,15 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             Assert.AreEqual(4, actual[0].Length);
             Assert.AreEqual(4, actual[1].Length);
 
-            Assert.AreEqual(1, actual[0].GetGene(0).Value);
-            Assert.AreEqual(2, actual[0].GetGene(1).Value);
-            Assert.AreEqual(7, actual[0].GetGene(2).Value);
-            Assert.AreEqual(8, actual[0].GetGene(3).Value);
+            Assert.AreEqual(1, actual[0].GetGene(0));
+            Assert.AreEqual(2, actual[0].GetGene(1));
+            Assert.AreEqual(7, actual[0].GetGene(2));
+            Assert.AreEqual(8, actual[0].GetGene(3));
 
-            Assert.AreEqual(5, actual[1].GetGene(0).Value);
-            Assert.AreEqual(6, actual[1].GetGene(1).Value);
-            Assert.AreEqual(3, actual[1].GetGene(2).Value);
-            Assert.AreEqual(4, actual[1].GetGene(3).Value);
+            Assert.AreEqual(5, actual[1].GetGene(0));
+            Assert.AreEqual(6, actual[1].GetGene(1));
+            Assert.AreEqual(3, actual[1].GetGene(2));
+            Assert.AreEqual(4, actual[1].GetGene(3));
 
 
             // 70%
@@ -77,15 +65,15 @@ namespace GeneticSharp.Domain.UnitTests.Crossovers
             Assert.AreEqual(4, actual[0].Length);
             Assert.AreEqual(4, actual[1].Length);
 
-            Assert.AreEqual(1, actual[0].GetGene(0).Value);
-            Assert.AreEqual(2, actual[0].GetGene(1).Value);
-            Assert.AreEqual(3, actual[0].GetGene(2).Value);
-            Assert.AreEqual(8, actual[0].GetGene(3).Value);
+            Assert.AreEqual(1, actual[0].GetGene(0));
+            Assert.AreEqual(2, actual[0].GetGene(1));
+            Assert.AreEqual(3, actual[0].GetGene(2));
+            Assert.AreEqual(8, actual[0].GetGene(3));
 
-            Assert.AreEqual(5, actual[1].GetGene(0).Value);
-            Assert.AreEqual(6, actual[1].GetGene(1).Value);
-            Assert.AreEqual(7, actual[1].GetGene(2).Value);
-            Assert.AreEqual(4, actual[1].GetGene(3).Value);
+            Assert.AreEqual(5, actual[1].GetGene(0));
+            Assert.AreEqual(6, actual[1].GetGene(1));
+            Assert.AreEqual(7, actual[1].GetGene(2));
+            Assert.AreEqual(4, actual[1].GetGene(3));
         }
     }
 }

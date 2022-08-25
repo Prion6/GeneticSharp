@@ -1,6 +1,7 @@
 ﻿using GeneticSharp.Domain.Randomizations;
 using System;
 using System.Collections;
+using System.Data.SqlTypes;
 using System.Linq;
 
 namespace GeneticSharp.Domain.Chromosomes
@@ -34,11 +35,11 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </summary>
         /// <returns>The gene.</returns>
         /// <param name="geneIndex">Gene index.</param>
-        public override Gene GenerateGene(int geneIndex)
+        public override object GenerateGene(int geneIndex)
         {
             var value = m_originalValue[geneIndex];
 
-            return new Gene(value);
+            return value;
         }
 
         /// <summary>
@@ -57,7 +58,7 @@ namespace GeneticSharp.Domain.Chromosomes
         public int ToInteger()
         {
             var array = new int[1];
-            var genes = GetGenes().Select(g => (bool)g.Value).ToArray();
+            var genes = GetGenes<bool>();
             var bitArray = new BitArray(genes);
             bitArray.CopyTo(array, 0);
 
@@ -70,7 +71,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <returns>A <see cref="T:System.String"/> that represents the current <see cref="T:GeneticSharp.Domain.Chromosomes.FloatingPointChromosome"/>.</returns>
         public override string ToString()
         {
-            return String.Join("", GetGenes().Reverse().Select(g => (bool) g.Value ? "1" : "0").ToArray());
+            return String.Join("", GetGenes<bool>().Reverse().Select(g => g ? "1" : "0").ToArray());
         }
 
         /// <summary>
@@ -82,9 +83,9 @@ namespace GeneticSharp.Domain.Chromosomes
         public override void FlipGene(int index)
         {
             var realIndex = Math.Abs(31 - index);
-            var value = (bool)GetGene(realIndex).Value;
+            var value = GetGene<bool>(realIndex);
 
-            ReplaceGene(realIndex, new Gene(!value));
+            ReplaceGene(realIndex, !value);
         }
     }
 }

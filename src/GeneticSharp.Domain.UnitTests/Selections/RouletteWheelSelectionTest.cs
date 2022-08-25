@@ -59,16 +59,16 @@ namespace GeneticSharp.Domain.UnitTests.Selections
         public void SelectChromosomes_Generation_ChromosomesSelected()
         {
             var target = new RouletteWheelSelection();
-            var c1 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            var c1 = Substitute.ForPartsOf<ChromosomeBase<int>>(2);
             c1.Fitness = 0.1;
 
-            var c2 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            var c2 = Substitute.ForPartsOf<ChromosomeBase<int>>(2);
             c2.Fitness = 0.5;
 
-            var c3 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            var c3 = Substitute.ForPartsOf<ChromosomeBase<int>>(2);
             c3.Fitness = 0;
 
-            var c4 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            var c4 = Substitute.ForPartsOf<ChromosomeBase<int>>(2);
             c4.Fitness = 0.7;
 
             var generation = new Generation(1, new List<IChromosome>() {
@@ -157,16 +157,16 @@ namespace GeneticSharp.Domain.UnitTests.Selections
         public void SelectChromosomes_Generation_ChromosomesZeroFitness()
         {
             var target = new RouletteWheelSelection();
-            var c1 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            var c1 = Substitute.ForPartsOf<ChromosomeBase<int>>(2);
             c1.Fitness = 0;
 
-            var c2 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            var c2 = Substitute.ForPartsOf<ChromosomeBase<int>>(2);
             c2.Fitness = 0;
 
-            var c3 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            var c3 = Substitute.ForPartsOf<ChromosomeBase<int>>(2);
             c3.Fitness = 0;
 
-            var c4 = Substitute.ForPartsOf<ChromosomeBase>(2);
+            var c4 = Substitute.ForPartsOf<ChromosomeBase<int>>(2);
             c4.Fitness = 0;
 
             var generation = new Generation(1, new List<IChromosome>() {

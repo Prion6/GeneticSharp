@@ -10,10 +10,10 @@ namespace GeneticSharp.Domain.Chromosomes
     /// </summary>
     [DebuggerDisplay("Fitness:{Fitness}, Genes:{Length}")]
     [Serializable]
-    public abstract class ChromosomeBase : IChromosome
+    public abstract class ChromosomeBase<U> : IChromosome
     {
         #region Fields
-        private Gene[] m_genes;
+        private U[] m_genes;
         private int m_length;
         #endregion
 
@@ -27,7 +27,7 @@ namespace GeneticSharp.Domain.Chromosomes
             ValidateLength(length);
 
             m_length = length;
-            m_genes = new Gene[length];
+            m_genes = new U[length];
         }
         #endregion
 
@@ -58,7 +58,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator ==(ChromosomeBase first, ChromosomeBase second)
+        public static bool operator ==(ChromosomeBase<U> first, ChromosomeBase<U> second)
         {
             if (Object.ReferenceEquals(first, second))
             {
@@ -81,7 +81,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator !=(ChromosomeBase first, ChromosomeBase second)
+        public static bool operator !=(ChromosomeBase<U> first, ChromosomeBase<U> second)
         {
             return !(first == second);
         }
@@ -94,7 +94,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator <(ChromosomeBase first, ChromosomeBase second)
+        public static bool operator <(ChromosomeBase<U> first, ChromosomeBase<U> second)
         {
             if (Object.ReferenceEquals(first, second))
             {
@@ -122,7 +122,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <returns>
         /// The result of the operator.
         /// </returns>
-        public static bool operator >(ChromosomeBase first, ChromosomeBase second)
+        public static bool operator >(ChromosomeBase<U> first, ChromosomeBase<U> second)
         {
             return !(first == second) && !(first < second);
         }
@@ -132,7 +132,19 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </summary>
         /// <param name="geneIndex">Gene index.</param>
         /// <returns>The gene generated at the specified index.</returns>
-        public abstract Gene GenerateGene(int geneIndex);
+        public T GenerateGene<T>(int geneIndex)
+        {
+            var gene = GenerateGene(geneIndex);
+            try
+            {
+                return (T)(object)gene;
+            }
+            catch
+            {
+                throw new TypeAccessException("Incorrect Type T for " + GetType().Name);
+            }
+        }
+
 
         /// <summary>
         /// Creates a new chromosome using the same structure of this.
@@ -147,7 +159,7 @@ namespace GeneticSharp.Domain.Chromosomes
         public virtual IChromosome Clone()
         {
             var clone = CreateNew();
-            clone.ReplaceGenes(0, GetGenes());
+            clone.ReplaceGenes(0, m_genes);
             clone.Fitness = Fitness;
 
             return clone;
@@ -159,14 +171,21 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <param name="index">The gene index to replace.</param>
         /// <param name="gene">The new gene.</param>
         /// <exception cref="System.ArgumentOutOfRangeException">index;There is no Gene on index {0} to be replaced..With(index)</exception>
-        public void ReplaceGene(int index, Gene gene)
+        public void ReplaceGene<T>(int index, T gene)
         {
             if (index < 0 || index >= m_length)
             {
                 throw new ArgumentOutOfRangeException(nameof(index), "There is no Gene on index {0} to be replaced.".With(index));
             }
 
-            m_genes[index] = gene;
+            try
+            {
+                m_genes[index] = (U)((object)gene); //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHH Esto puede malir sal
+            }
+            catch
+            {
+                throw new TypeAccessException("Incorrect Type T for " + GetType().Name);
+            }
             Fitness = null;
         }
 
@@ -178,7 +197,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <remarks>
         /// The genes to be replaced can't be greater than the available space between the start index and the end of the chromosome.
         /// </remarks>
-        public void ReplaceGenes(int startIndex, Gene[] genes)
+        public void ReplaceGenes<T>(int startIndex, T[] genes)
         {
             ExceptionHelper.ThrowIfNull("genes", genes);
 
@@ -196,7 +215,7 @@ namespace GeneticSharp.Domain.Chromosomes
                 if (genesToBeReplacedLength > availableSpaceLength)
                 {
                     throw new ArgumentException(
-                        nameof(Gene),
+                        nameof(U),
                         "The number of genes to be replaced is greater than available space, there is {0} genes between the index {1} and the end of chromosome, but there is {2} genes to be replaced."
                         .With(availableSpaceLength, startIndex, genesToBeReplacedLength));
                 }
@@ -226,18 +245,32 @@ namespace GeneticSharp.Domain.Chromosomes
         /// <returns>
         /// The gene.
         /// </returns>
-        public Gene GetGene(int index)
+        public virtual T GetGene<T>(int index)
         {
-            return m_genes[index];
+            try
+            {
+                return ((T)((object)m_genes[index]));
+            }
+            catch
+            {
+                throw new TypeAccessException("Incorrect Type T for " + GetType().Name);
+            }
         }
 
         /// <summary>
         /// Gets the genes.
         /// </summary>
         /// <returns>The genes.</returns>
-        public Gene[] GetGenes()
+        public virtual T[] GetGenes<T>()
         {
-            return m_genes;
+            try
+            {
+                return m_genes as T[];
+            }
+            catch
+            {
+                throw new TypeAccessException("Incorrect Type T for " + GetType().Name);
+            }
         }
 
         /// <summary>
@@ -301,7 +334,7 @@ namespace GeneticSharp.Domain.Chromosomes
         /// </remarks>
         /// </summary>
         /// <param name="index">The gene index.</param>
-        protected virtual void CreateGene(int index)
+        protected void CreateGene(int index)
         {
             ReplaceGene(index, GenerateGene(index));
         }
@@ -322,7 +355,7 @@ namespace GeneticSharp.Domain.Chromosomes
         {
             for (int i = 0; i < Length; i++)
             {
-                ReplaceGene(i, GenerateGene(i));
+                CreateGene(i);
             }
         }
 
@@ -338,6 +371,18 @@ namespace GeneticSharp.Domain.Chromosomes
                 throw new ArgumentException("The minimum length for a chromosome is 2 genes.", nameof(length));
             }
         }
-        #endregion      
+
+        public object GetGene(int index)
+        {
+            return GetGene<U>(index);
+        }
+
+        public object[] GetGenes()
+        {
+            return GetGenes<U>() as object[];
+        }
+
+        public abstract object GenerateGene(int geneIndex);
+        #endregion
     }
 }

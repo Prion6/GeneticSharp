@@ -16,8 +16,8 @@ namespace GeneticSharp.Extensions.UnitTests.Mathematic
                 new FunctionBuilderInput(new double[] { 1 }, 3));
 
             var c = new FunctionBuilderChromosome(target.AvailableOperations, 2);
-            c.ReplaceGene(0, new Gene("-"));
-            c.ReplaceGene(1, new Gene(""));
+            c.ReplaceGene(0, "-");
+            c.ReplaceGene(1, "");
 
             var actual = target.Evaluate(c);
 
@@ -32,8 +32,8 @@ namespace GeneticSharp.Extensions.UnitTests.Mathematic
                 new FunctionBuilderInput(new double[] { 1 }, 3));
 
             var c = new FunctionBuilderChromosome(target.AvailableOperations, 2);
-            c.ReplaceGene(0, new Gene("A"));
-            c.ReplaceGene(1, new Gene(""));
+            c.ReplaceGene(0, "A");
+            c.ReplaceGene(1, "");
 
             var actual = target.Evaluate(c);
             Assert.AreEqual(-3, actual);
@@ -47,8 +47,8 @@ namespace GeneticSharp.Extensions.UnitTests.Mathematic
                 new FunctionBuilderInput(new double[] { 2 }, 2));
 
             var c = new FunctionBuilderChromosome(target.AvailableOperations, 2);
-            c.ReplaceGene(0, new Gene("A"));
-            c.ReplaceGene(1, new Gene(""));
+            c.ReplaceGene(0, "A");
+            c.ReplaceGene(1, "");
 
             var actual = target.Evaluate(c);
             Assert.AreEqual(0, actual);

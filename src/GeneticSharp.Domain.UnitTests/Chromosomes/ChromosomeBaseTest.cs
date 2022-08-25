@@ -16,7 +16,7 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
             {
                 try
                 {
-                    Substitute.For<ChromosomeBase>(1);
+                    Substitute.For<ChromosomeBase<int>>(1);
                 }
                 catch (Exception ex)
                 {
@@ -28,10 +28,10 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         [Test]
         public void CompareTo_Others_DiffResults()
         {
-            var target = Substitute.For<ChromosomeBase>(2);
+            var target = Substitute.For<ChromosomeBase<int>>(2);
             target.Fitness = 0.5;
 
-            var other = Substitute.For<ChromosomeBase>(2);
+            var other = Substitute.For<ChromosomeBase<int>>(2);
             other.Fitness = 0.5;
 
             Assert.AreEqual(-1, target.CompareTo(null));
@@ -47,17 +47,17 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         [Test]
         public void Fitness_AnyChange_Null()
         {
-            var target = Substitute.For<ChromosomeBase>(2);
+            var target = Substitute.For<ChromosomeBase<int>>(2);
             Assert.IsFalse(target.Fitness.HasValue);
             target.Fitness = 0.5;
             Assert.IsTrue(target.Fitness.HasValue);
 
             target.Fitness = 0.5;
-            target.ReplaceGene(0, new Gene(0));
+            target.ReplaceGene(0, 0);
             Assert.IsFalse(target.Fitness.HasValue);
 
             target.Fitness = 0.5;
-            target.ReplaceGenes(0, new Gene[] { new Gene(0) });
+            target.ReplaceGenes(0, new int[] {0});
             Assert.IsFalse(target.Fitness.HasValue);
 
             target.Fitness = 0.5;
@@ -65,118 +65,118 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
             Assert.IsTrue(target.Fitness.HasValue);
 
             target.Fitness = 0.5;
-            target.ReplaceGene(0, new Gene(0));
+            target.ReplaceGene(0, 0);
             Assert.IsFalse(target.Fitness.HasValue);
         }
 
         [Test]
         public void ReplaceGene_InvalidIndex_Exception()
         {
-            var target = Substitute.For<ChromosomeBase>(2);
+            var target = Substitute.For<ChromosomeBase<int>>(2);
 
             Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
-                target.ReplaceGene(2, new Gene(0));
+                target.ReplaceGene(2, 0);
             }, "There is no Gene on index 2 to be replaced.");
 
             Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
-                target.ReplaceGene(3, new Gene(0));
+                target.ReplaceGene(3, 0);
             }, "There is no Gene on index 3 to be replaced.");
         }
 
         [Test]
         public void ReplaceGene_ValidIndex_Replaced()
         {
-            var target = Substitute.For<ChromosomeBase>(2);
+            var target = Substitute.For<ChromosomeBase<int>>(2);
 
-            target.ReplaceGene(0, new Gene(2));
-            target.ReplaceGene(1, new Gene(6));
+            target.ReplaceGene(0, 2);
+            target.ReplaceGene(1, 6);
 
             var actual = target.GetGenes();
             Assert.AreEqual(2, actual.Length);
-            Assert.AreEqual(2, actual[0].Value);
-            Assert.AreEqual(6, actual[1].Value);
+            Assert.AreEqual(2, actual[0]);
+            Assert.AreEqual(6, actual[1]);
         }
 
         [Test]
         public void ReplaceGenes_InvalidIndex_Exception()
         {
-            var target = Substitute.For<ChromosomeBase>(2);
+            var target = Substitute.For<ChromosomeBase<object>>(2);
 
             Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
-                target.ReplaceGenes(2, new Gene[] { new Gene() });
+                target.ReplaceGenes(2, new object[] { new object() });
             }, "There is no Gene on index 2 to be replaced.");
 
             Assert.Catch<ArgumentOutOfRangeException>(() =>
             {
-                target.ReplaceGenes(3, new Gene[] { new Gene() });
+                target.ReplaceGenes(3, new object[] { new object() });
             }, "There is no Gene on index 3 to be replaced.");
         }
 
         [Test]
         public void ReplaceGenes_NullGenes_Exception()
         {
-            var target = Substitute.For<ChromosomeBase>(2);
+            var target = Substitute.For<ChromosomeBase<object>>(2);
 
             Assert.Catch<ArgumentNullException>(() =>
             {
-                target.ReplaceGenes(0, null);
+                target.ReplaceGenes<object>(0, null);
             });
         }
 
         [Test]
         public void ReplaceGenes_GenesExceedChromosomeLength_Exception()
         {
-            var target = Substitute.For<ChromosomeBase>(3);
+            var target = Substitute.For<ChromosomeBase<int>>(3);
 
             Assert.Catch<ArgumentException>(() =>
             {
-                target.ReplaceGenes(0, new Gene[] { new Gene(1), new Gene(2), new Gene(3), new Gene(4) });
+                target.ReplaceGenes(0, new int[] { 1, 2, 3, 4 });
             }, "The number of genes to be replaced is greater than available space, there is 3 genes between the index 0 and the end of chromosome, but there is 4 genes to be replaced.");
 
             Assert.Catch<ArgumentException>(() =>
             {
-                target.ReplaceGenes(1, new Gene[] { new Gene(1), new Gene(2), new Gene(3) });
+                target.ReplaceGenes(1, new int[] { 1, 2, 3, 4 });
             }, "The number of genes to be replaced is greater than available space, there is 2 genes between the index 1 and the end of chromosome, but there is 3 genes to be replaced.");
         }
 
         [Test]
         public void ReplaceGenes_ValidIndex_Replaced()
         {
-            var target = Substitute.For<ChromosomeBase>(4);
+            var target = Substitute.For<ChromosomeBase<int>>(4);
 
-            target.ReplaceGenes(0, new Gene[] { new Gene(1), new Gene(2) });
+            target.ReplaceGenes(0, new int[] { 1, 2});
 
             var actual = target.GetGenes();
             Assert.AreEqual(4, actual.Length);
-            Assert.AreEqual(1, actual[0].Value);
-            Assert.AreEqual(2, actual[1].Value);
+            Assert.AreEqual(1, actual[0]);
+            Assert.AreEqual(2, actual[1]);
 
-            target.ReplaceGenes(2, new Gene[] { new Gene(3), new Gene(4) });
-
-            actual = target.GetGenes();
-            Assert.AreEqual(4, actual.Length);
-            Assert.AreEqual(1, actual[0].Value);
-            Assert.AreEqual(2, actual[1].Value);
-            Assert.AreEqual(3, actual[2].Value);
-            Assert.AreEqual(4, actual[3].Value);
-
-            target.ReplaceGenes(3, new Gene[] { new Gene(5) });
+            target.ReplaceGenes(2, new int[] { 3, 4 });
 
             actual = target.GetGenes();
             Assert.AreEqual(4, actual.Length);
-            Assert.AreEqual(1, actual[0].Value);
-            Assert.AreEqual(2, actual[1].Value);
-            Assert.AreEqual(3, actual[2].Value);
-            Assert.AreEqual(5, actual[3].Value);
+            Assert.AreEqual(1, actual[0]);
+            Assert.AreEqual(2, actual[1]);
+            Assert.AreEqual(3, actual[2]);
+            Assert.AreEqual(4, actual[3]);
+
+            target.ReplaceGenes(3, new int[] { 5 });
+
+            actual = target.GetGenes();
+            Assert.AreEqual(4, actual.Length);
+            Assert.AreEqual(1, actual[0]);
+            Assert.AreEqual(2, actual[1]);
+            Assert.AreEqual(3, actual[2]);
+            Assert.AreEqual(5, actual[3]);
         }
 
         [Test]
         public void Resize_InvalidLength_Exception()
         {
-            var target = Substitute.For<ChromosomeBase>(2);
+            var target = Substitute.For<ChromosomeBase<int>>(2);
 
             Assert.Catch<ArgumentException>(() =>
             {
@@ -187,37 +187,27 @@ namespace GeneticSharp.Domain.UnitTests.Chromosomes
         [Test]
         public void Resize_ToLowerLength_TruncateGenes()
         {
-            var target = Substitute.For<ChromosomeBase>(4);
-            target.ReplaceGenes(0, new Gene[]
-            {
-                new Gene(1),
-                new Gene(2),
-                new Gene(3),
-                new Gene(4)
-            });
+            var target = Substitute.For<ChromosomeBase<int>>(4);
+            target.ReplaceGenes(0, new int[]{ 1, 2, 3, 4 });
 
             target.Resize(2);
             Assert.AreEqual(2, target.Length);
-            Assert.AreEqual(1, target.GetGene(0).Value);
-            Assert.AreEqual(2, target.GetGene(1).Value);
+            Assert.AreEqual(1, target.GetGene(0));
+            Assert.AreEqual(2, target.GetGene(1));
         }
 
         [Test]
         public void Resize_ToGreaterLength_KeepOldGenesAndNullValueNewOnes()
         {
-            var target = Substitute.For<ChromosomeBase>(2);
-            target.ReplaceGenes(0, new Gene[]
-            {
-                new Gene(1),
-                new Gene(2)
-            });
+            var target = Substitute.For<ChromosomeBase<int>>(2);
+            target.ReplaceGenes(0, new int[]{1, 2});
 
             target.Resize(4);
             Assert.AreEqual(4, target.Length);
-            Assert.AreEqual(1, target.GetGene(0).Value);
-            Assert.AreEqual(2, target.GetGene(1).Value);
-            Assert.IsNull(target.GetGene(2).Value);
-            Assert.IsNull(target.GetGene(3).Value);
+            Assert.AreEqual(1, target.GetGene(0));
+            Assert.AreEqual(2, target.GetGene(1));
+            Assert.IsNull(target.GetGene(2));
+            Assert.IsNull(target.GetGene(3));
         }
 
         [Test]

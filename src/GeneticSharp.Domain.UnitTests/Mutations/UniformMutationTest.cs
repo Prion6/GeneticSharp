@@ -20,37 +20,27 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         public void Mutate_NoIndexes_RandomOneIndex()
         {
             var target = new UniformMutation();
-            var chromosome = Substitute.For<ChromosomeBase>(3);
-            chromosome.ReplaceGenes(0, new Gene[]
-            {
-                new Gene(1),
-                new Gene(1),
-                new Gene(1)
-            });
+            var chromosome = Substitute.For<ChromosomeBase<int>>(3);
+            chromosome.ReplaceGenes(0, new int[]{1,1,1});
 
-            chromosome.GenerateGene(1).Returns(new Gene(0));
+            chromosome.GenerateGene(1).Returns(0);
             RandomizationProvider.Current = Substitute.For<IRandomization>();
             RandomizationProvider.Current.GetInts(1, 0, 3).Returns(new int[] { 1 });
 
             target.Mutate(chromosome, 1);
-            Assert.AreEqual(1, chromosome.GetGene(0).Value);
-            Assert.AreEqual(0, chromosome.GetGene(1).Value);
-            Assert.AreEqual(1, chromosome.GetGene(2).Value);
+            Assert.AreEqual(1, chromosome.GetGene(0));
+            Assert.AreEqual(0, chromosome.GetGene(1));
+            Assert.AreEqual(1, chromosome.GetGene(2));
         }
 
         [Test()]
         public void Mutate_InvalidIndexes_Exception()
         {
             var target = new UniformMutation(0, 3);
-            var chromosome = Substitute.For<ChromosomeBase>(3);
-            chromosome.ReplaceGenes(0, new Gene[]
-            {
-                new Gene(1),
-                new Gene(1),
-                new Gene(1)
-            });
+            var chromosome = Substitute.For<ChromosomeBase<int>>(3);
+            chromosome.ReplaceGenes(0, new int[]{1,1,1});
 
-            chromosome.GenerateGene(0).Returns(new Gene(0));
+            chromosome.GenerateGene(0).Returns(0);
 
             RandomizationProvider.Current = Substitute.For<IRandomization>();
 
@@ -64,22 +54,17 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         public void Mutate_Indexes_RandomIndexes()
         {
             var target = new UniformMutation(0, 2);
-            var chromosome = Substitute.For<ChromosomeBase>(3);
-            chromosome.ReplaceGenes(0, new Gene[]
-                                                     {
-                new Gene(1),
-                new Gene(1),
-                new Gene(1)
-            });
+            var chromosome = Substitute.For<ChromosomeBase<int>>(3);
+            chromosome.ReplaceGenes(0, new int[]{1,1,1});
 
-            chromosome.GenerateGene(0).Returns(new Gene(0));
-            chromosome.GenerateGene(2).Returns(new Gene(10));
+            chromosome.GenerateGene(0).Returns(0);
+            chromosome.GenerateGene(2).Returns(10);
             RandomizationProvider.Current = Substitute.For<IRandomization>();
 
             target.Mutate(chromosome, 1);
-            Assert.AreEqual(0, chromosome.GetGene(0).Value);
-            Assert.AreEqual(1, chromosome.GetGene(1).Value);
-            Assert.AreEqual(10, chromosome.GetGene(2).Value);
+            Assert.AreEqual(0, chromosome.GetGene(0));
+            Assert.AreEqual(1, chromosome.GetGene(1));
+            Assert.AreEqual(10, chromosome.GetGene(2));
 
         }
 
@@ -87,23 +72,18 @@ namespace GeneticSharp.Domain.UnitTests.Mutations
         public void Mutate_AllGenesMutablesTrue_AllGenesMutaed()
         {
             var target = new UniformMutation(true);
-            var chromosome = Substitute.For<ChromosomeBase>(3);
-            chromosome.ReplaceGenes(0, new Gene[]
-                                 {
-                new Gene(1),
-                new Gene(1),
-                new Gene(1)
-            });
+            var chromosome = Substitute.For<ChromosomeBase<int>>(3);
+            chromosome.ReplaceGenes(0, new int[]{1,1,1});
 
-            chromosome.GenerateGene(0).Returns(new Gene(0));
-            chromosome.GenerateGene(1).Returns(new Gene(10));
-            chromosome.GenerateGene(2).Returns(new Gene(20));
+            chromosome.GenerateGene(0).Returns(0);
+            chromosome.GenerateGene(1).Returns(10);
+            chromosome.GenerateGene(2).Returns(20);
             RandomizationProvider.Current = Substitute.For<IRandomization>();
          
             target.Mutate(chromosome, 1);
-            Assert.AreEqual(0, chromosome.GetGene(0).Value);
-            Assert.AreEqual(10, chromosome.GetGene(1).Value);
-            Assert.AreEqual(20, chromosome.GetGene(2).Value);
+            Assert.AreEqual(0, chromosome.GetGene(0));
+            Assert.AreEqual(10, chromosome.GetGene(1));
+            Assert.AreEqual(20, chromosome.GetGene(2));
         }
     }
 }
