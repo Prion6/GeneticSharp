@@ -61,7 +61,7 @@ namespace GeneticSharp.Domain
     /// </para>
     /// <see href="http://http://en.wikipedia.org/wiki/Genetic_algorithm">Wikipedia</see>
     /// </summary>
-    public sealed class GeneticAlgorithm : IGeneticAlgorithm
+    public class GeneticAlgorithm : IGeneticAlgorithm
     {
         #region Constants
         /// <summary>
